@@ -41,19 +41,21 @@ def block_user_account():
     options.add_argument("--disable-extensions")
     #option.add_argument('headless')
     #option.add_argument('user-agent'=user_agent)
-
+    
+    #give youre chrome driver path here
     browser = webdriver.Chrome(executable_path="/home/devansh/chromedriver_linux64/chromedriver",
                                desired_capabilities=capabilities,chrome_options=options)
     
+    #website here in this case its instagram
     browser.get('https://www.instagram.com')
 
     WebDriverWait(browser, 10)
 
     WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,
-                 "input[name='username']"))).send_keys("devansh_mody") #enter user name here
+                 "input[name='username']"))).send_keys("enter youre user name") #enter user name here
 
     WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR,
-                 "input[name='password']"))).send_keys("Fgexd123") #enter password here 
+                 "input[name='password']"))).send_keys("enter youre password") #enter password here 
 
 
     browser.find_element_by_xpath("//button[contains(.,'Log In')]").click()
@@ -69,6 +71,7 @@ def block_user_account():
 
     searchbox=browser.find_element_by_css_selector("input[placeholder='Search']")
     searchbox.clear()
+    #enter the account to be blocked
     searchbox.send_keys("scoopwhoop")
     time.sleep(5)
     searchbox.send_keys(Keys.ENTER)
