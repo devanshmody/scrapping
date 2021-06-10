@@ -637,22 +637,22 @@ def hashtaglist():
         print("length of the file {} is {}".format(i,len(new)))      
                 
 def main(username,password):
-    #block_user_account("devansh_mody","Deva1234")
+    #block_user_account(username,password)
     #run this function to get the follwing list
-    #get_following_list("devansh_mody","Deva1234")
+    get_following_list(username,password)
     #run this function to get the follwers list
-    #get_followers_list("devansh_mody","Deva1234")
+    get_followers_list(username,password)
     #function to get the blocked list
-    #get_blocked_list("devansh_mody","Deva1234")
+    get_blocked_list(username,password)
     #function to get similar account given a account name
-    #similar_account(username,password) 
+    similar_account(username,password) 
     #function to block mutiple accounts
     block_multiple_account(username,password) 
     #function to remove duplicate from the files
     #remove_duplicates()
-    #remove_duplicates_large()
+    remove_duplicates_large()
     #generate hashtag file
-    #hashtaglist()
+    hashtaglist()
     
 main("enter username here","enter password here")
 
