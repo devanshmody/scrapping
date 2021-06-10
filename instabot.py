@@ -654,7 +654,7 @@ def main(username,password):
     #generate hashtag file
     #hashtaglist()
     
-main("devansh_mody","Dev1234")
+main("enter username here","enter password here")
 
          
                
