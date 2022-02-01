@@ -45,20 +45,27 @@ def cybernews():
     news= []
     new_name = []
     for link in soup.find_all('a'):
-        links.append(link.get('href'))
-        names.append(link.text)
-        #print(links[:5])
+        if len(re.sub('\s+',' ',link.text))==0:
+            pass
+        if re.sub('\s+',' ',link.text).find("listen now")==-1:            
+            links.append(link.get('href'))
+            names.append(re.sub('\s+',' ',link.text))
+        else:
+            pass
+            #print(links[:5])
 
     for i in range(0,len(links)):
         if links[i].startswith('https://threatpost.com/microsoft') or links[i].startswith('https://threatpost.com/author/') or links[i].startswith("https://threatpost.com/teamtntstartswith(") or links[i].startswith('https://threatpost.com/spoofing-bug-cybersecurity') or links[i].startswith('https://threatpost.com/ragnar-locker-gang') or links[i].startswith('https://threatpost.com/solarwinds') or links[i].startswith('https://threatpost.com/iot-attacks-doubling') or links[i].startswith("https://threatpost.com/attackers") or links[i].startswith("https://threatpost.com/ransomware"):
-            news.append(links[i])
-            new_name.append(names[i])
+            if links[i].find("author") ==-1:
+                news.append(links[i])
+                new_name.append(names[i])
+            else:
+                pass
     
     df=pd.DataFrame(columns=["url"])
     for j in range(0,len(news)):
-        df=df.append({'url':"<a href={}".format(news[j])+">"+re.sub('\s+',' ',new_name[j])+"</a>"},ignore_index=True)
+        df=df.append({'url':"<a href={}".format(news[j])+">"+new_name[j]+"</a>"},ignore_index=True)
     
-    #driver.close()
     #scrapping from cybersecurity google news
     driver.get("https://news.google.com/search?hl=en-IN&gl=IN&q=cyber+security&ceid=IN:en&gl=IN&q=cyber+security")
     driver.implicitly_wait(60)
@@ -66,11 +73,11 @@ def cybernews():
     soup=BeautifulSoup(driver.page_source, 'lxml')
     for link in soup.find_all('a'):
         try:
-            df=df.append({'url':"<a href=https://news.google.com/"+link.get('href')[2:]+">"+re.sub('\s+',' ',link.text)+"</a>"},ignore_index=True)
+            if link.get('href').startswith("./articles/"):
+                df=df.append({'url':"<a href=https://news.google.com/"+link.get('href')[2:]+">"+re.sub('\s+',' ',link.text)+"</a>"},ignore_index=True)
         except Exception as e:
             print(e)
-    #driver.close()
-    
+      
     #scrapping from cyware.coms
     driver.get("https://cyware.com/cyber-security-news-articles/")
     driver.implicitly_wait(60)
@@ -81,21 +88,28 @@ def cybernews():
     new_name = []
     soup=BeautifulSoup(driver.page_source, 'lxml')
     for link in soup.find_all('a'):
-        links.append(link.get('href'))
-        names.append(link.text)
-        #print(links[:5])
+        if len(re.sub('\s+',' ',link.text))==0:
+            pass
+        else:
+            links.append(link.get('href'))
+            names.append(re.sub('\s+',' ',link.text))
+            #print(links[:5])
     
     for i in range(0,len(links)):
         if str(links[i]).startswith('https:'):
-            news.append(links[i])
-            new_name.append(names[i])
+            if str(links[i]).find("https://cyware.com/legal/")==-1:
+                news.append(links[i])
+                new_name.append(names[i])
+            else:
+                pass
     
     for j in range(0,len(news)):
-        df=df.append({'url':"<a href={}".formatnews[j]+">"+re.sub('\s+',' ',new_name[i])+"</a>"},ignore_index=True)
+        df=df.append({'url':"<a href={}".format(news[j])+">"+new_name[j]+"</a>"},ignore_index=True)
 
-    #driver.close()
 
     df.drop_duplicates(subset=['url'],inplace=True)        
     df.to_excel("cybernews.xlsx",index=False)       
-
-#cybernews()
+    
+    driver.close()
+    
+cybernews()
